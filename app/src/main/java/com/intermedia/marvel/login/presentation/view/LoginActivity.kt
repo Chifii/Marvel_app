@@ -1,10 +1,10 @@
-package com.intermedia.marvel
+package com.intermedia.marvel.login.presentation.view
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.intermedia.marvel.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity() {
+class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
