@@ -3,6 +3,7 @@ package com.intermedia.marvel.login.presentation.view
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -12,6 +13,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.edit
 import androidx.core.widget.addTextChangedListener
+import com.intermedia.marvel.R
 import com.intermedia.marvel.databinding.ActivityLoginBinding
 import com.intermedia.marvel.home.presentation.view.HomeActivity
 import com.intermedia.marvel.login.presentation.viewmodel.LoginViewModel
@@ -64,7 +66,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun setupLoginButton() {
         binding.loginButton.setOnClickListener {
-            if (binding.loginMailField.text.isNotEmpty() && binding.loginPasswordField.text.isNotEmpty()) {
+            if (binding.loginMailField.text!!.isNotEmpty() && binding.loginPasswordField.text!!.isNotEmpty()) {
                 model.setupLoginButton(
                     binding.loginMailField.text.toString(),
                     binding.loginPasswordField.text.toString()
@@ -88,6 +90,8 @@ class LoginActivity : AppCompatActivity() {
     }
 
     fun showToast() {
+        binding.loginMailFieldContainer.error = "error"
+        binding.loginPasswordFieldContainer.error = "error"
         val toast = Toast(applicationContext)
         toast.apply {
             setText("The combination of Email and Password is not correct. Please retry.")

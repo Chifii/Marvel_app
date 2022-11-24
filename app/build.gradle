@@ -5,15 +5,43 @@ plugins {
     id 'com.google.gms.google-services'
 }
 
+def keystoreProperties = new Properties()
+def folder = new File("keystore.properties")
+
+if (folder.exists()) {
+    def keystorePropertiesFile = rootProject.file("keystore.properties")
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+} else {
+    keystoreProperties.setProperty("keyAlias", "unknownKeyAlias")
+    keystoreProperties.setProperty("keyPassword", "unknownKeyPassword")
+    keystoreProperties.setProperty("storeFile", "unknownStoreFileLocation")
+    keystoreProperties.setProperty("storePassword", "unknownStorePassword")
+}
+
 android {
     defaultConfig {
         applicationId "com.intermedia.marvel_challenge"
     }
 
+    signingConfigs {
+        config {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
+        }
+    }
+
     buildTypes {
-        release {
+        debug {
             minifyEnabled false
+            debuggable true
+        }
+        release {
+            minifyEnabled true
+            debuggable false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
         }
     }
 
