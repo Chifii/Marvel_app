@@ -17,12 +17,17 @@ class CharacterViewModel(
     val repository: HomeRepository = HomeRepository()
 ) : ViewModel() {
     private val scopeRecovery by lazy { CoroutineScope(Job() + Dispatchers.Main) }
+    private var cumulativeData: MutableList<ResultsModel> = mutableListOf()
+    private var offsetCount = 1
 
     private val errorMDL: MutableLiveData<HttpException> = MutableLiveData()
     val error get() = errorMDL as LiveData<HttpException>
 
     private val charactersMDL: MutableLiveData<List<ResultsModel>> = MutableLiveData()
     val characters get() = charactersMDL as LiveData<List<ResultsModel>>
+
+    private val moreCharactersMDL: MutableLiveData<List<ResultsModel>> = MutableLiveData()
+    val moreCharacters get() = moreCharactersMDL as LiveData<List<ResultsModel>>
 
     private val characterIdMDL: MutableLiveData<Int> = MutableLiveData()
     val characterId get() = characterIdMDL as LiveData<Int>
@@ -36,12 +41,30 @@ class CharacterViewModel(
         }
     }
 
+    fun getMoreCharacters(offset:Int) {
+        scopeRecovery.launch {
+            when (val response = repository.getMoreCharacters(offset*offsetCount)) {
+                is Result.Success -> {
+                    offsetCount++
+                    sedMoreCharacters(response.data)
+                }
+                is Result.Error -> showError(response.exception)
+            }
+        }
+    }
+
     fun sendCharactersData(results: DataWrapperModel) {
+        results.data?.results?.forEach { cumulativeData.add(it) }
         charactersMDL.value = results.data?.results
     }
 
+    fun sedMoreCharacters(results: DataWrapperModel) {
+        results.data?.results?.forEach { cumulativeData.add(it) }
+        moreCharactersMDL.value = results.data?.results
+    }
+
     fun getCharacterId(position: Int) {
-        characterIdMDL.value = charactersMDL.value!![position].id
+        characterIdMDL.value = cumulativeData[position].id
     }
 
     fun showError(exception: HttpException) {

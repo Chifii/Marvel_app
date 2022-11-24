@@ -3,13 +3,15 @@ package com.intermedia.marvel.home.presentation.view
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
-import androidx.navigation.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.navigation.NavigationBarView
 import com.intermedia.marvel.R
 import com.intermedia.marvel.databinding.ActivityHomeBinding
-import com.intermedia.marvel.home.domain.models.ResultsModel
 import com.intermedia.marvel.home.presentation.viewmodel.HomeViewModel
 
 class HomeActivity : AppCompatActivity() {
@@ -24,20 +26,30 @@ class HomeActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
+        val fragmentEvent = EventFragment()
+        val fragmentCharacter = CharacterFragment()
+        replaceCurrentFragment(fragmentCharacter)
+
         binding.bottomNavigationView.itemIconTintList = null
 
-        binding.bottomNavigationView.setOnClickListener {
-            when (it.id) {
+        binding.bottomNavigationView.setOnItemSelectedListener {
+            when (it.itemId) {
                 R.id.navigation_characters -> {
-                    Navigation.findNavController(view)
-                        .navigate(R.id.action_characterFragment_to_eventFragment2)
+                    replaceCurrentFragment(fragmentCharacter)
+                    true
                 }
                 R.id.navigation_events -> {
-                    Navigation.findNavController(view)
-                        .navigate(R.id.action_eventFragment_to_characterFragment2)
+                    replaceCurrentFragment(fragmentEvent)
+                    true
                 }
+                else -> false
             }
         }
     }
 
+    private fun replaceCurrentFragment(fragment: Fragment) =
+        supportFragmentManager.beginTransaction().apply {
+            replace(R.id.nav_host_fragment, fragment)
+            commit()
+        }
 }

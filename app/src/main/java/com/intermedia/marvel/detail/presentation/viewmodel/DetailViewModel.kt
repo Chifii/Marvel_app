@@ -21,8 +21,8 @@ class DetailViewModel(
     private val errorMDL: MutableLiveData<HttpException> = MutableLiveData()
     val error get() = errorMDL as LiveData<HttpException>
 
-    private val detailMDL: MutableLiveData<List<ResultsModel>> = MutableLiveData()
-    val detail get() = detailMDL as LiveData<List<ResultsModel>>
+    private val detailMDL: MutableLiveData<ResultsModel> = MutableLiveData()
+    val detail get() = detailMDL as LiveData<ResultsModel>
 
     fun getDetailData(characterId: Int) {
         scopeRecovery.launch {
@@ -34,7 +34,7 @@ class DetailViewModel(
     }
 
     fun sendDetailData(results: DataWrapperModel) {
-        detailMDL.value = results.data?.results
+        detailMDL.value = results.data?.results?.get(0)
     }
 
     fun showError(exception: HttpException) {

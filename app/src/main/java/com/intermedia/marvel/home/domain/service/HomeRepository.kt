@@ -14,10 +14,20 @@ class HomeRepository : BaseRepository<HomeService>(HomeService::class.java) {
         return withContext(Dispatchers.IO) {
             try {
                 val data = service.getCharacters(
-                    1,
-                    100,
-                    "9f274fd2b19012c9787bc1bd70f0c0aa",
-                    "7d77ded4da4fc222a01abdb29a064e54"
+                    TS, LIMIT, API_KEY, HASH
+                )
+                Result.Success(data)
+            } catch (exception: HttpException) {
+                Result.Error(exception)
+            }
+        }
+    }
+
+    suspend fun getMoreCharacters(offset: Int): Result<DataWrapperModel> {
+        return withContext(Dispatchers.IO) {
+            try {
+                val data = service.getMoreCharacters(
+                    TS, LIMIT, offset, API_KEY, HASH
                 )
                 Result.Success(data)
             } catch (exception: HttpException) {
@@ -30,15 +40,32 @@ class HomeRepository : BaseRepository<HomeService>(HomeService::class.java) {
         return withContext(Dispatchers.IO) {
             try {
                 val data = service.getEvents(
-                    1,
-                    100,
-                    "9f274fd2b19012c9787bc1bd70f0c0aa",
-                    "7d77ded4da4fc222a01abdb29a064e54"
+                    TS, LIMIT, API_KEY, HASH
                 )
                 Result.Success(data)
             } catch (exception: HttpException) {
                 Result.Error(exception)
             }
         }
+    }
+
+    suspend fun getMoreEvents(offset: Int): Result<DataWrapperModel> {
+        return withContext(Dispatchers.IO) {
+            try {
+                val data = service.getMoreEvents(
+                    TS, LIMIT, offset, API_KEY, HASH
+                )
+                Result.Success(data)
+            } catch (exception: HttpException) {
+                Result.Error(exception)
+            }
+        }
+    }
+
+    private companion object {
+        const val API_KEY = "9f274fd2b19012c9787bc1bd70f0c0aa"
+        const val HASH = "7d77ded4da4fc222a01abdb29a064e54"
+        const val LIMIT = 15
+        const val TS = 1
     }
 }

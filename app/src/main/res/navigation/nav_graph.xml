@@ -10,9 +10,6 @@
         android:label="CharacterFragment"
         tools:layout="@layout/character_fragment">
         <action
-            android:id="@+id/action_characterFragment_to_eventFragment2"
-            app:destination="@id/eventFragment" />
-        <action
             android:id="@+id/action_characterFragment_to_detailFragment"
             app:destination="@id/detailFragment" />
     </fragment>
@@ -20,11 +17,7 @@
         android:id="@+id/eventFragment"
         android:name="com.intermedia.marvel.home.presentation.view.EventFragment"
         android:label="EventFragment"
-        tools:layout="@layout/event_fragment">
-        <action
-            android:id="@+id/action_eventFragment_to_characterFragment2"
-            app:destination="@id/characterFragment" />
-    </fragment>
+        tools:layout="@layout/event_fragment"/>
     <fragment
         android:id="@+id/detailFragment"
         android:name="com.intermedia.marvel.detail.presentation.view.DetailFragment"

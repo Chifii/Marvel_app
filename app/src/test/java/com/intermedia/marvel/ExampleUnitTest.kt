@@ -1,4 +1,4 @@
-package com.intermedia.marvel_challenge
+package com.intermedia.marvel
 
 import org.junit.Test
 

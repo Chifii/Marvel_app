@@ -17,12 +17,17 @@ class EventViewModel(
     val repository: HomeRepository = HomeRepository()
 ) : ViewModel() {
     private val scopeRecovery by lazy { CoroutineScope(Job() + Dispatchers.Main) }
+    private var cumulativeData: MutableList<ResultsModel> = mutableListOf()
+    private var offsetCount = 1
 
     private val errorMDL: MutableLiveData<HttpException> = MutableLiveData()
     val error get() = errorMDL as LiveData<HttpException>
 
     private val eventsMDL: MutableLiveData<List<ResultsModel>> = MutableLiveData()
     val events get() = eventsMDL as LiveData<List<ResultsModel>>
+
+    private val moreEventsMDL: MutableLiveData<List<ResultsModel>> = MutableLiveData()
+    val moreEvents get() = moreEventsMDL as LiveData<List<ResultsModel>>
 
     fun getEventsData() {
         scopeRecovery.launch {
@@ -33,11 +38,28 @@ class EventViewModel(
         }
     }
 
-    fun sendEventsData(results: DataWrapperModel) {
+    fun getEventsData(offset: Int) {
+        scopeRecovery.launch {
+            when (val response = repository.getMoreEvents(offset * offsetCount)) {
+                is Result.Success -> {
+                    offsetCount++
+                    sendMoreEvents(response.data)
+                }
+                is Result.Error -> showError(response.exception)
+            }
+        }
+    }
+
+    private fun sendMoreEvents(results: DataWrapperModel) {
+        results.data?.results?.forEach { cumulativeData.add(it) }
+        moreEventsMDL.value = results.data?.results
+    }
+
+    private fun sendEventsData(results: DataWrapperModel) {
         eventsMDL.value = results.data?.results
     }
 
-    fun showError(exception: HttpException) {
+    private fun showError(exception: HttpException) {
         errorMDL.value = exception
     }
 }

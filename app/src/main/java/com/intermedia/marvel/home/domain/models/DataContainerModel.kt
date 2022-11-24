@@ -7,5 +7,5 @@ data class DataContainerModel(
     @SerializedName("limit") val limit: Int?,
     @SerializedName("total") val total: Int?,
     @SerializedName("count") val count: Int?,
-    @SerializedName("results") val results: List<ResultsModel>,
+    @SerializedName("results") val results: List<ResultsModel>
 )

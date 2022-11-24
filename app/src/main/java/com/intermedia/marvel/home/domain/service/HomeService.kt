@@ -14,10 +14,28 @@ interface HomeService {
         @Query("hash") hash: String
     ): DataWrapperModel
 
+    @GET("characters")
+    suspend fun getMoreCharacters(
+        @Query("ts") ts: Int,
+        @Query("limit") limit: Int,
+        @Query("offset") offset: Int,
+        @Query("apikey") apikey: String,
+        @Query("hash") hash: String
+    ): DataWrapperModel
+
     @GET("events")
     suspend fun getEvents(
         @Query("ts") ts: Int,
         @Query("limit") limit: Int,
+        @Query("apikey") apikey: String,
+        @Query("hash") hash: String
+    ): DataWrapperModel
+
+    @GET("events")
+    suspend fun getMoreEvents(
+        @Query("ts") ts: Int,
+        @Query("limit") limit: Int,
+        @Query("offset") offset: Int,
         @Query("apikey") apikey: String,
         @Query("hash") hash: String
     ): DataWrapperModel

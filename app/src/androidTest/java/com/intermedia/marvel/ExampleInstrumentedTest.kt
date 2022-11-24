@@ -1,4 +1,4 @@
-package com.intermedia.marvel_challenge
+package com.intermedia.marvel
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

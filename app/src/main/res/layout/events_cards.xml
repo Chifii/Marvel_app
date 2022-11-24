@@ -3,15 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="120dp">
+    android:layout_height="wrap_content">
 
     <!-- Base CardView -->
     <androidx.cardview.widget.CardView
         android:id="@+id/base_cardview"
         style="@style/Base.CardView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_height="match_parent"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:outlineAmbientShadowColor="@color/black"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="6dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.473"
@@ -32,8 +38,6 @@
                 android:id="@+id/home_card_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="4dp"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -45,8 +49,10 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginBottom="8dp"
                     android:fontFamily="@font/roboto_condensed_regular"
-                    android:textStyle="bold"
                     android:gravity="start"
+                    android:textColor="#000000"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
                     app:layout_constraintStart_toEndOf="@+id/event_card_img"
                     app:layout_constraintTop_toTopOf="@+id/event_card_img"
                     tools:text="Civil War" />
@@ -56,11 +62,11 @@
                     android:layout_width="86dp"
                     android:layout_height="86dp"
                     android:layout_margin="17dp"
+                    android:contentDescription="Portada"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:src="@color/cardview_dark_background"
-                    android:contentDescription="Portada">
+                    tools:src="@color/cardview_dark_background">
 
                 </ImageView>
 
@@ -69,6 +75,8 @@
                     android:layout_width="180dp"
                     android:layout_height="37dp"
                     android:fontFamily="@font/roboto_condensed_regular"
+                    android:textColor="#222053"
+                    android:textSize="14sp"
                     app:layout_constraintStart_toStartOf="@+id/event_name"
                     app:layout_constraintTop_toBottomOf="@+id/event_name"
                     tools:text="9 de Agosto 2020" />
@@ -77,20 +85,18 @@
                     android:id="@+id/arrow_button"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    android:layout_marginEnd="24dp"
                     android:layout_marginTop="48dp"
+                    android:layout_marginEnd="24dp"
                     android:layout_marginBottom="48dp"
+                    android:contentDescription="Mas detalles"
+                    android:src="@drawable/expand_more"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@android:drawable/arrow_down_float"
-                    android:contentDescription="Mas detalles" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <!-- The following is the expandable portion whose visibility is initially set to 'gone'
-            The parent LinearLayout contains 3 child LinearLayouts that hold a subject name and an icon each -->
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/hidden_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -101,83 +107,33 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/home_card_container">
 
-                <!-- Child LinearLayout 1 -->
-                <LinearLayout
+                <TextView
+                    android:id="@+id/event_comic_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="88dp"
+                    android:layout_marginEnd="86dp"
+                    android:fontFamily="@font/roboto_condensed_regular"
+                    android:text="COMICS TO DISCUSS"
+                    android:textColor="#000000"
+                    android:textSize="20dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/event_comic_recycler"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="88dp"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginBottom="10dp"
-                        android:src="@android:drawable/arrow_down_float" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginTop="20dp"
-                        android:text="Database Management"
-                        android:textColor="#000000"
-                        android:textSize="20dp" />
-                </LinearLayout>
-
-                <!-- Child LinearLayout 2 -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginBottom="10dp"
-                        android:src="@android:drawable/arrow_down_float" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginTop="20dp"
-                        android:text="Data Structures"
-                        android:textColor="#000000"
-                        android:textSize="20dp" />
-                </LinearLayout>
-
-                <!-- Child LinearLayout 3 -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginBottom="10dp"
-                        android:src="@android:drawable/arrow_down_float" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginTop="20dp"
-                        android:text="Operating Systems"
-                        android:textColor="#000000"
-                        android:textSize="20dp" />
-                </LinearLayout>
-            </LinearLayout>
+                    android:layout_height="0dp"
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/event_comic_title"
+                    tools:listitem="@layout/detail_cards" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.cardview.widget.CardView>
 
 </androidx.appcompat.widget.LinearLayoutCompat>
